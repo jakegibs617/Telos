@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from jobs import router as jobs_router
 
 app = FastAPI()
 
@@ -12,6 +13,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(jobs_router)
 
 class Weights(BaseModel):
     fortune500: int
