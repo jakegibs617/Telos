@@ -3,3 +3,4 @@ telos-app/node_modules/
 telos-backend/node_modules/
 telos-backend/venv/
 .vscode/extensions.json
+.DS_Store

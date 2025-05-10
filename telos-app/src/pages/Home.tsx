@@ -11,7 +11,7 @@ import {
   IonRange,
   IonSelect,
   IonSelectOption,
-  IonButton
+  IonButton,
 } from '@ionic/react';
 import axios from 'axios';
 
@@ -23,22 +23,23 @@ const Home: React.FC = () => {
     jobType: 'remote',
   });
 
-const submitPreferences = async () => {
-  try {
-    const payload = {
-      ...formData,
-      weights,
-    };
-    const response = await axios.post(
-      'http://127.0.0.1:8000/api/preferences',
-      payload
-    );
-    console.log('Response:', response.data);
-  } catch (error) {
-    console.error('Submission failed', error);
-  }
-};
+  const submitPreferences = async () => {
+    try {
+      const payload = {
+        ...formData,
+        weights,
+      };
+      await axios.post('http://127.0.0.1:8000/api/preferences', payload);
 
+      // Now fetch jobs
+      const jobResponse = await axios.get(
+        'http://127.0.0.1:8000/api/jobs/fetch?source=airtable'
+      );
+      setJobs(jobResponse.data.jobs);
+    } catch (error) {
+      console.error('Submission failed', error);
+    }
+  };
 
   const [weights, setWeights] = useState({
     fortune500: 5,
@@ -48,6 +49,7 @@ const submitPreferences = async () => {
     pay: 5,
   });
 
+  const [jobs, setJobs] = useState<any[]>([]);
 
   return (
     <IonPage>
@@ -179,6 +181,26 @@ const submitPreferences = async () => {
         >
           Continue →
         </IonButton>
+        {jobs.length > 0 && (
+          <>
+            <h2>🔍 Matching Jobs</h2>
+            {jobs.map((job, index) => (
+              <IonItem key={index} href={job.url} target='_blank'>
+                <IonLabel>
+                  <h2>{job.title}</h2>
+                  <p>
+                    {job.company} — {job.location}
+                  </p>
+                  <p>
+                    <small>
+                      Posted: {new Date(job.published).toLocaleDateString()}
+                    </small>
+                  </p>
+                </IonLabel>
+              </IonItem>
+            ))}
+          </>
+        )}
       </IonContent>
     </IonPage>
   );
