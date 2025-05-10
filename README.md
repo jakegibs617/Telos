@@ -77,8 +77,21 @@ A structured development plan for **Telos** — a smart, user-personalized job d
 
 ---
 
-**Project Name**: Telos  
-**Goal**: Help users discover and prioritize career opportunities aligned with their purpose.  
-**Owner**: Jacob Giberson  
+**Project Name**: Telos
+**Goal**: Help users discover and prioritize career opportunities aligned with their purpose.
+**Owner**: Jacob Giberson
 **Status**: [In Progress / Planning]
 
+
+
+## Run app:
+
+```
+telos-app/telos-backend/main.py
+(venv) ➜  Telos git:(telos/phase_1-scaffolding) ✗ uvicorn main:app --reload --port 8000
+```
+
+```
+telos-app/src/pages/Home.tsx
+➜  telos-app git:(telos/phase_1-scaffolding) ✗ ionic serve
+```
